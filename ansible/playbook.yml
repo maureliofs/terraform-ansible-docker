@@ -1,0 +1,47 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Instalando o curl e pip
+    apt:
+      pkg: 
+        - curl
+        - python3-pip
+      update_cache: yes
+
+  - name: Instalando Docker
+    shell: "curl -fsSL https://get.docker.com/ | sh"
+
+  - name: Instalando python docker module 
+    shell: "sudo python3 -m pip install docker"
+
+- hosts: bd
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Container docker de mysql no host1
+    docker_container:
+      name: meubanco
+      image: mysql
+      ports:
+        - "3306:3306"
+      env:
+        MYSQL_ROOT_PASSWORD: "123456" 
+
+- hosts: wordpress
+  become: yes
+  gather_facts: no
+  vars:
+    ip_banco: "<public-ip-banco>:3306"
+  tasks:
+  - name: Container docker de wordpress no host2
+    docker_container:
+      name: meublog
+      image: wordpress
+      ports:
+        - "8080:80"
+      env:
+        WORDPRESS_DB_HOST: "{{ ip_banco }}"
+        WORDPRESS_DB_PASSWORD: "123456"
+        WORDPRESS_DB_NAME: "mydb"
+        WORDPRESS_TABLE_PREFIX: "wp"
