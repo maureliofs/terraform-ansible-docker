@@ -19,7 +19,7 @@ resource "aws_instance" "teste" {
   tags          = {
     Name        = "teste${count.index}"
   }
-  vpc_security_group_ids = ["sg-0721448541363768e", "sg-099fbeb8f862b1260", "	sg-0f83314592d47c8fc"]
+  #vpc_security_group_ids = ["sg-0721448541363768e", "sg-099fbeb8f862b1260", "sg-0f83314592d47c8fc"]
 }
 
 resource "aws_security_group" "acesso_ssh" {

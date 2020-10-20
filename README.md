@@ -12,6 +12,9 @@ cd terraform
 terraform plan
 terraform apply
 ```
+
+Depois de executar a primeira vez, precisamos adicionar os ID's dos security groups na variável `vpc_security_group_ids`,descomentar a linha e realizar o processo anterior novamente para que as regras sejam adicionadas. 
+
 ### Execução do Ansible
 
 Logo após ter criado toda a infraestrutura com o Terraform, podemos configurar os hosts via Ansible. A primeira instância ficará com o MySQL e a segunda com o Wordpress.
